@@ -1,0 +1,312 @@
+---
+title: "Bitcoin price fluctuation with Twitter text analysis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r include=FALSE}
+load("datas.RData")
+library(tidytext) 
+library(ggplot2)
+library(RColorBrewer)
+library(wordcloud)
+library(tm)
+library(twitteR)
+library(ROAuth)
+library(plyr)
+library(stringr)
+library(base64enc)
+library(dplyr)
+library(tidyr)
+library(rtweet)
+
+```
+
+## Abstract
+In this project, I applied text analysis to find the relations between ”people’s behavior on twitter” and ”Bitcoin’s price and volume.” Since it is a less-than-one-month project and Twitter set the limit rate for retrieving data via API, the comparison only covered data of three weeks.   
+
+
+## Bitcoin Historical Price
+```{r echo=FALSE, message = FALSE}
+
+ts.price
+```
+
+## Bitcoin Historical Trading Volume
+The two peaks occurring at 4/10~4/11 and 4/22~4/23 are noteworthy. We can focus on these two dates in the below word frequency analysis and word clouds.  
+
+```{r echo=FALSE}
+ts.volume
+```
+
+
+## Word Frequency from 4/13 to 5/2 {.tabset .tabset-fade}
+### 4/13 
+```{r echo=FALSE}
+bp.words.0413
+```
+
+### 4/14
+```{r echo=FALSE}
+bp.words.0414
+```
+
+### 4/15
+```{r echo=FALSE}
+bp.words.0415
+```
+
+### 4/16
+```{r echo=FALSE}
+bp.words.0416
+```
+
+### 4/17
+```{r echo=FALSE}
+bp.words.0417
+```
+
+### 4/18
+```{r echo=FALSE}
+bp.words.0418
+```
+
+### 4/19
+```{r echo=FALSE}
+bp.words.0419
+```
+
+### 4/20
+```{r echo=FALSE}
+bp.words.0420
+```
+
+### 4/21
+```{r echo=FALSE}
+bp.words.0421
+```
+
+### 4/22
+```{r echo=FALSE}
+bp.words.0422
+```
+
+### 4/23
+```{r echo=FALSE}
+bp.words.0423
+```
+
+### 4/24
+```{r echo=FALSE}
+bp.words.0424
+```
+
+### 4/25
+```{r echo=FALSE}
+bp.words.0425
+```
+
+### 4/26
+```{r echo=FALSE}
+bp.words.0426
+```
+
+### 4/27
+```{r echo=FALSE}
+bp.words.0427
+```
+
+### 4/28
+```{r echo=FALSE}
+bp.words.0428
+```
+
+### 4/29
+```{r echo=FALSE}
+bp.words.0429
+```
+
+### 4/30
+```{r echo=FALSE}
+bp.words.0430
+```
+
+### 5/01
+```{r echo=FALSE}
+bp.words.0501
+```
+
+### 5/02
+```{r echo=FALSE}
+bp.words.0502
+```
+##
+
+
+## Word Cloud from 4/13 to 5/2 {.tabset .tabset-fade}
+### 4/13
+```{r echo=FALSE}
+wordcloud(tweet_words_0413$word, min.freq = 20,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+### 4/14
+```{r echo=FALSE}
+wordcloud(tweet_words_0414$word, min.freq = 20,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+### 4/15
+```{r echo=FALSE}
+wordcloud(tweet_words_0415$word, min.freq = 20,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+### 4/16
+```{r echo=FALSE}
+wordcloud(tweet_words_0416$word, min.freq = 20,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+
+### 4/17
+```{r echo=FALSE}
+wordcloud(tweet_words_0417$word, min.freq = 20,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+### 4/18
+```{r echo=FALSE}
+wordcloud(tweet_words_0418$word, min.freq = 20,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+### 4/19
+```{r echo=FALSE}
+wordcloud(tweet_words_0419$word, min.freq = 20,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+### 4/20
+```{r echo=FALSE}
+wordcloud(tweet_words_0420$word, min.freq = 20,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+### 4/21
+```{r echo=FALSE}
+wordcloud(tweet_words_0421$word, min.freq = 20,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+### 4/22
+```{r echo=FALSE}
+wordcloud(tweet_words_0422$word, min.freq = 20,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+### 4/23
+```{r echo=FALSE}
+wordcloud(tweet_words_0423$word, min.freq = 20,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+### 4/24
+```{r echo=FALSE}
+wordcloud(tweet_words_0424$word, min.freq = 20,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+### 4/25
+```{r echo=FALSE}
+wordcloud(tweet_words_0425$word, min.freq = 20,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+### 4/26
+```{r echo=FALSE}
+wordcloud(tweet_words_0426$word, min.freq = 20,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+### 4/27
+```{r echo=FALSE}
+wordcloud(tweet_words_0427$word, min.freq = 20,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+### 4/28
+```{r echo=FALSE}
+wordcloud(tweet_words_0428$word, min.freq = 20,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+### 4/29
+```{r echo=FALSE}
+wordcloud(tweet_words_0429$word, min.freq = 20,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+### 4/30
+```{r echo=FALSE}
+wordcloud(tweet_words_0430$word, min.freq = 20,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+### 5/01
+```{r echo=FALSE}
+wordcloud(tweet_words_0501$word, min.freq = 20,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+
+### 5/02
+```{r echo=FALSE}
+wordcloud(tweet_words_0502$word, min.freq = 20,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+##
