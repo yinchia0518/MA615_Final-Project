@@ -1,5 +1,5 @@
 ---
-title: "Bitcoin price fluctuation with Twitter text analysis"
+title: "Text analysis on Twitter about Bitcoin-related news "
 output: html_document
 ---
 
@@ -22,24 +22,37 @@ library(base64enc)
 library(dplyr)
 library(tidyr)
 library(rtweet)
+library(jpeg)
 
 ```
 
 ## Abstract
-In this project, I applied text analysis to find the relations between ”people’s behavior on twitter” and ”Bitcoin’s price and volume.” Since it is a less-than-one-month project and Twitter set the limit rate for retrieving data via API, the comparison only covered data of three weeks.   
+In this project, I applied text analysis on twitter to observe people’s reactions and emotions regarding to any news related to bitcoin (or other cryptocurrencies.) Since it is a less-than-one-month project and Twitter set the limit rate for retrieving data via API, the comparison only covered data of three weeks.   
 
+## Discription
+The generated wordclouds and word frequencies can be different because of different text cleaning methods. In this project, I tried two cleaning approaches. The below results were generated without moving hash tags(#) and @. As a result, more key words and user name remained while less emotional words were dispayed. To see other results by removing all hash tags, @ and bitcoin-related key words, please refer to [Shiny-app version](https://yinchia0518.shinyapps.io/Bitcoin_Twitter_Wordcloud/). In this version, more words other than market terms are presented. Some emotioal words can be found in those wordclouds. 
 
 ## Bitcoin Historical Price
 ```{r echo=FALSE, message = FALSE}
-
 ts.price
 ```
 
 ## Bitcoin Historical Trading Volume
-The two peaks occurring at 4/10~4/11 and 4/22~4/23 are noteworthy. We can focus on these two dates in the below word frequency analysis and word clouds.  
+The two peaks occurring at 4/10~4/11 and 4/22~4/24 are noteworthy. We can focus on these two dates in the below word frequency analysis and word clouds.  
 
 ```{r echo=FALSE}
 ts.volume
+```
+
+
+## Total Market Capitalization excluding Bitcoin 
+It is important to consider the whole market performance rather than only focus on bitcoin. Since people invest in other cryptocurrencies also have interest in bitcoin. All keywords are related.
+```{r echo=FALSE}
+totalMarket <- readJPEG("/Users/yinchiahuang/Library/Mobile Documents/com~apple~CloudDocs/MA615/MA615_Final-Project/chart.jpeg", native = TRUE)
+if(exists("rasterImage")){
+      plot(1:2, type='n')
+      rasterImage(totalMarket,1,1,2,2)
+}
 ```
 
 
@@ -147,7 +160,18 @@ bp.words.0502
 
 
 ## Word Cloud from 4/13 to 5/2 {.tabset .tabset-fade}
+* **Blockchain** is always the biggest one, which means it is a connecting word that when people think about bitcoin or other cryptocurrency, they think of blockchain.
+* **Cash** appears every day. It is probably refer to "Bitcoin cash". There has been a lot of discussion on twitter regarding the [debate](https://www.youtube.com/watch?v=8UiAGkeqNwQ) between bitcoin cash and bitcoin.
+* **Telegram** was always in the wordwlouds, but the size of it was small. We may infer that the discussion about [Telegram Was Banned  in Russia](https://cointelegraph.com/news/russian-media-telegram-was-banned-due-to-ico-not-keys-and-terrorism) lasted for a long time but was not the hottest topic during this time period.
+* **airdrop and trading ** appear a lot during this time period. From [the charts of altcoin and bitcoin](https://coinmarketcap.com/charts/), we can see altcoin went up a lot this past month, so there might be a correlation between “trading” words and altcoin increase.
+
+
 ### 4/13
+* **Tim Draper:**
+Tim Draper made a comment on 4/13 : [Tim Draper Predicts Bitcoin Will Soar to $250,000 in Four Years](https://bitcoinmagazine.com/articles/tim-draper-predicts-bitcoin-will-soar-250000-four-years/)
+* **cash:**
+Might be refered to "Bitcoin cash". Because [Bitcoin cash price surged higher and broke the $700 resistance against the US Dollar.](https://www.newsbtc.com/2018/04/13/bitcoin-cash-price-technical-analysis-bch-usd-bullish-700/) this week.
+
 ```{r echo=FALSE}
 wordcloud(tweet_words_0413$word, min.freq = 20,
           max.words=200, random.order=FALSE, rot.per=0.35, 
@@ -156,6 +180,10 @@ wordcloud(tweet_words_0413$word, min.freq = 20,
 ```
 
 ### 4/14
+* **Airdrop:** [Free Airdrop for EOS Holders on April 15: Everything You Need To Know To Claim It!](https://coinsutra.com/eosdac-airdrop/)
+* **Other strong words :** Traders,trading, announces, plan, presale, repayment, capital, leverage, makes, automatically, earn
+* **Tim Draper:** Still was a strong word. The discussion of Draper's comments continued.
+* **Presale:** Maybe was referred to [ICO of EOS](https://bravenewcoin.com/news/eos-price-analysis-us2-6b-already-raised-in-ongoing-ico/)
 ```{r echo=FALSE}
 wordcloud(tweet_words_0414$word, min.freq = 20,
           max.words=200, random.order=FALSE, rot.per=0.35, 
@@ -164,6 +192,8 @@ wordcloud(tweet_words_0414$word, min.freq = 20,
 ```
 
 ### 4/15
+* **Binance:** Binance is an international multi-language cryptocurrency exchange. [Binance announcement to support EOS MainNet token swap](https://ambcrypto.com/binance-announcement-to-support-eos-mainnet-token-swap/)
+* **Airdrop, Presale:** Still were strong words. The discussion of EOS's ICO continued.
 ```{r echo=FALSE}
 wordcloud(tweet_words_0415$word, min.freq = 20,
           max.words=200, random.order=FALSE, rot.per=0.35, 
@@ -172,6 +202,10 @@ wordcloud(tweet_words_0415$word, min.freq = 20,
 ```
 
 ### 4/16
+* **Tax day, Buyback: ** 4/16 is the day before tax day. That's the reason why the key words "Tax" and "Buyback" appeared on this day. People expected the tax benfit by implementing buyback strategies, or just need current asset for tax payments.  
+* **There are lots of important words related to the market:  ** trade, market, earn, automatically, transactions, daily, sales, wall(buying or selling wall)    
+* **leverage:** [Bitfinex soon to offer Ethereum (ETH) margin lending and leverage trading](https://www.bitcoinfuturesguide.com/bitcoin-blog/bitfinex-soon-to-offer-ethereum-eth-margin-lending-and-leverage-trading)
+* **Coinbase, Cardano, Ethereum :** These are new words. Coinbase is a digital currency exchange headquartered in San Francisco.  Cardano is one of Altcoin, which is the 6th biggest coin.
 ```{r echo=FALSE}
 wordcloud(tweet_words_0416$word, min.freq = 20,
           max.words=200, random.order=FALSE, rot.per=0.35, 
@@ -181,6 +215,9 @@ wordcloud(tweet_words_0416$word, min.freq = 20,
 
 
 ### 4/17
+* **amazon:** news on 4/18 [Amazon wins patent for data feed marketplace that could include bitcoin transactions](https://www.cnbc.com/2018/04/18/amazon-wins-patent-for-data-feed-marketplace.html)
+* **There were not too many new words :** May be can explain the low trading volume on this day.
+
 ```{r echo=FALSE}
 wordcloud(tweet_words_0417$word, min.freq = 20,
           max.words=200, random.order=FALSE, rot.per=0.35, 
@@ -189,6 +226,10 @@ wordcloud(tweet_words_0417$word, min.freq = 20,
 ```
 
 ### 4/18
+* **Iceland, exchange, satoshi, stealing, ban, escape, :** [Big bitcoin heist' suspect escapes prison and flees Iceland 'on PM's plane](https://www.theguardian.com/technology/2018/apr/18/big-bitcoin-heist-suspect-sindri-thor-stefansson-escapes-prison-flees-iceland-pm-katrin-jakobsdottir-plane) This news arroused people to use negative words.  
+* **Cash, airdrop** appear again. 
+* **Telegram** become more prevalent on this day. 
+
 ```{r echo=FALSE}
 wordcloud(tweet_words_0418$word, min.freq = 20,
           max.words=200, random.order=FALSE, rot.per=0.35, 
@@ -197,6 +238,10 @@ wordcloud(tweet_words_0418$word, min.freq = 20,
 ```
 
 ### 4/19
+* **exchange, cash (bitcoin cash), illegitimate, fraud:** On this day, there was a huge increase in bitcoin cash market cap, way higher than bitcoin. Refer to the [percentage of total market capitalization](https://coinmarketcap.com/charts/). People use the word "illegitimate", which might be regarded as an expression of angriness.
+* **Morgan Stanley :** [Morgan Stanley :Bitcoin 'miners' are losing money at any price below $8,600](https://www.cnbc.com/2018/04/19/bitcoin-miners-are-losing-money-at-any-price-below-8600-morgan-stanley.html)
+* **Other old words :** Amazon, telegram, market...
+
 ```{r echo=FALSE}
 wordcloud(tweet_words_0419$word, min.freq = 20,
           max.words=200, random.order=FALSE, rot.per=0.35, 
@@ -205,6 +250,8 @@ wordcloud(tweet_words_0419$word, min.freq = 20,
 ```
 
 ### 4/20
+no new words 
+
 ```{r echo=FALSE}
 wordcloud(tweet_words_0420$word, min.freq = 20,
           max.words=200, random.order=FALSE, rot.per=0.35, 
@@ -213,6 +260,10 @@ wordcloud(tweet_words_0420$word, min.freq = 20,
 ```
 
 ### 4/21
+* **Coinbase, Wikileak:** [The WikiLeaks Shop says that Coinbase has suspended its account](https://www.theverge.com/2018/4/21/17265928/coinbase-suspended-wikileaks-store-account-cryptocurrency-bitcoin)
+* **New and old words about the market: ** scarcitiy, altcoins, tokens, exchange, trading
+* **Positive words:** "increasing" and "earn". Market cap increased in other coins. Refer to the altcoin graph. 
+
 ```{r echo=FALSE}
 wordcloud(tweet_words_0421$word, min.freq = 20,
           max.words=200, random.order=FALSE, rot.per=0.35, 
@@ -221,6 +272,9 @@ wordcloud(tweet_words_0421$word, min.freq = 20,
 ```
 
 ### 4/22
+* **Airdrop** is a siginificant word on this day.
+* **Telegram : ** [Russian Court Bans Telegram App After 18-Minute Hearing](https://www.nytimes.com/2018/04/13/world/europe/russia-telegram-encryption.html)
+
 ```{r echo=FALSE}
 wordcloud(tweet_words_0422$word, min.freq = 20,
           max.words=200, random.order=FALSE, rot.per=0.35, 
@@ -229,6 +283,8 @@ wordcloud(tweet_words_0422$word, min.freq = 20,
 ```
 
 ### 4/23
+* **Airdrop** still remained, the airdrop event might be the reaoson for large volume and increased price of these two days.
+* **Cash** is an important word that day. It might be referred to Bitcoin Cash since its [price](https://coinmarketcap.com/currencies/bitcoin-cash/) increased a lot on this day.
 ```{r echo=FALSE}
 wordcloud(tweet_words_0423$word, min.freq = 20,
           max.words=200, random.order=FALSE, rot.per=0.35, 
@@ -237,6 +293,7 @@ wordcloud(tweet_words_0423$word, min.freq = 20,
 ```
 
 ### 4/24
+From 4/24 to 4/27, neither many new words nor siginificant words appeared, which imply that nothing new happend during these days. And it may also correlated with the low volume of bitcoin trade at the same time.
 ```{r echo=FALSE}
 wordcloud(tweet_words_0424$word, min.freq = 20,
           max.words=200, random.order=FALSE, rot.per=0.35, 
@@ -269,6 +326,10 @@ wordcloud(tweet_words_0427$word, min.freq = 20,
 ```
 
 ### 4/28
+* **Warren buffet: ** [Warren Buffett: Bitcoin is Gambling, a Game, Not an Investment](https://news.bitcoin.com/warren-buffett-bitcoin-is-gambling-a-game-not-an-investment/)
+* **Escobar :** This was an old news that [Pablo Escobar’s brother has launched his own cryptocurrency: Diet Bitcoin](https://thenextweb.com/hardfork/2018/03/21/pablo-escobar-cryptocurrency-bitcoin/)
+* **Old words: ** exchange, sale, trading, days, telegram
+* **new words: ** ICO of korona coin
 ```{r echo=FALSE}
 wordcloud(tweet_words_0428$word, min.freq = 20,
           max.words=200, random.order=FALSE, rot.per=0.35, 
@@ -277,6 +338,8 @@ wordcloud(tweet_words_0428$word, min.freq = 20,
 ```
 
 ### 4/29
+no new or significant words
+
 ```{r echo=FALSE}
 wordcloud(tweet_words_0429$word, min.freq = 20,
           max.words=200, random.order=FALSE, rot.per=0.35, 
@@ -285,6 +348,10 @@ wordcloud(tweet_words_0429$word, min.freq = 20,
 ```
 
 ### 4/30
+* **Lawsuit, Cash:** [Bitcoin Cash Is Bitcoin? Lawsuits Won't Stop the Fight Over Bitcoin's Name](https://www.coindesk.com/bitcoin-cash-bitcoin-lawsuits-wont-stop-fight-bitcoins-name/)
+* **Zurich, Switzerland: ** [Publicity Stunt Sees Bitcoin Logo Projected on Swiss Bank in Zurich](https://www.newsbtc.com/2018/04/30/publicity-stunt-sees-bitcoin-logo-projected-on-swiss-bank-in-zurich/)
+* **murthaburke:** Seems a twitter account for advertisement, not informational.
+
 ```{r echo=FALSE}
 wordcloud(tweet_words_0430$word, min.freq = 20,
           max.words=200, random.order=FALSE, rot.per=0.35, 
@@ -293,6 +360,8 @@ wordcloud(tweet_words_0430$word, min.freq = 20,
 ```
 
 ### 5/01
+* **Kanye West, harriet, tubman:** [I wanted to use Bitcoin when I saw Harriet Tubman on the $20 bill](https://www.washingtonexaminer.com/news/kanye-west-i-wanted-to-use-bitcoin-when-i-saw-harriet-tubman-on-the-20-bill)
+
 ```{r echo=FALSE}
 wordcloud(tweet_words_0501$word, min.freq = 20,
           max.words=200, random.order=FALSE, rot.per=0.35, 
@@ -309,4 +378,14 @@ wordcloud(tweet_words_0502$word, min.freq = 20,
 
 ```
 
-##
+##Conclusion
+Even though all the tweets were retrieved using keywords "Bitcoin", the texts were actaully not only dicussed about bitcoin but the whole cryptocurrencies market. For example, in 4/21, there were some positive words such as increase and earn. But the price and voulme of boitcoin actually didn't have significant changes, while the [total market cap excluding bitcoin](https://coinmarketcap.com/charts/) increased on that day. And other cryptocurrencies such as altcoins, bitcoin cash, Ethereum and EOS were mentioned a lot during this time period on tweeter. As a result, we may infer that investors of bitcoin also concern and have interest in other cryptocurrencies. 
+&NewLine;
+&NewLine;
+In addition, I personally think people rarely use many emotional words when discussing about cryptocurrencies on Twitter. Most words were neutral. And lots of market terms were extracted from the texts. 
+&NewLine;
+&NewLine;
+Nevertheless, from all siginificant words of each day, we can depict a timeline marking all big news in this time period and see how people reacted to these news in terms of investment in cryptocurrencies. And if the timeline expand, we might get more insightful results, considering people's different reaction times. 
+&NewLine;
+&NewLine;
+

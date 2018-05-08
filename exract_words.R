@@ -94,7 +94,7 @@ tweets_0502 <- data_20180502_DF %>%
 
 
 #extract words from each tweet
-reg <- "([^A-Za-z\\d#@']|'(?![A-Za-z\\d#@ ]))" 
+reg <- "([^A-Za-z_\\d#@']|'(?![A-Za-z_\\d#@]))" 
 
 tweet_words_0413 <- tweets_0413 %>% 
   filter(!str_detect(text, '^"')) %>% 
@@ -125,12 +125,6 @@ tweet_words_0416 <- tweets_0416 %>%
          str_detect(word, "[az]")) 
 
 tweet_words_0417 <- tweets_0417 %>% 
-  filter(!str_detect(text, '^"')) %>% 
-  mutate(text = str_replace_all(text, " https:// t.co/[A-Za-z\\d]+|&", "")) %>% 
-  unnest_tokens(word, text, token = "regex", pattern = reg) %>% 
-  filter(!word %in% stop_words $word, 
-         str_detect(word, "[az]")) 
-tweet_words_0422 <- tweets_0422 %>% 
   filter(!str_detect(text, '^"')) %>% 
   mutate(text = str_replace_all(text, " https:// t.co/[A-Za-z\\d]+|&", "")) %>% 
   unnest_tokens(word, text, token = "regex", pattern = reg) %>% 
