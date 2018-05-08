@@ -11,6 +11,7 @@ library(base64enc)
 library(dplyr)
 library(tidyr)
 library(rtweet)
+
 #Select only useful attributes
 tweets_0413 <- data_20180413_DF %>% 
   select(id, statusSource, text, created, favoriteCount, retweetCount ) %>% 
@@ -278,6 +279,7 @@ bp.words.0416 <- tweet_words_0416 %>%
   geom_bar(stat = "identity") + 
   ylab("Occurrences") + 
   coord_flip()
+
 bp.words.0417 <- tweet_words_0417 %>% 
   count(word, sort = TRUE) %>% 
   head(20) %>% 
@@ -286,6 +288,7 @@ bp.words.0417 <- tweet_words_0417 %>%
   geom_bar(stat = "identity") + 
   ylab("Occurrences") + 
   coord_flip()
+
 bp.words.0418 <- tweet_words_0418 %>% 
   count(word, sort = TRUE) %>% 
   head(20) %>% 
@@ -294,6 +297,7 @@ bp.words.0418 <- tweet_words_0418 %>%
   geom_bar(stat = "identity") + 
   ylab("Occurrences") + 
   coord_flip()
+
 bp.words.0419 <- tweet_words_0419 %>% 
   count(word, sort = TRUE) %>% 
   head(20) %>% 
@@ -302,6 +306,7 @@ bp.words.0419 <- tweet_words_0419 %>%
   geom_bar(stat = "identity") + 
   ylab("Occurrences") + 
   coord_flip()
+
 bp.words.0420 <- tweet_words_0420 %>% 
   count(word, sort = TRUE) %>% 
   head(20) %>% 
@@ -310,6 +315,7 @@ bp.words.0420 <- tweet_words_0420 %>%
   geom_bar(stat = "identity") + 
   ylab("Occurrences") + 
   coord_flip()
+
 bp.words.0421 <- tweet_words_0421 %>% 
   count(word, sort = TRUE) %>% 
   head(20) %>% 
@@ -318,6 +324,7 @@ bp.words.0421 <- tweet_words_0421 %>%
   geom_bar(stat = "identity") + 
   ylab("Occurrences") + 
   coord_flip()
+
 bp.words.0422 <- tweet_words_0422 %>% 
   count(word, sort = TRUE) %>% 
   head(20) %>% 
@@ -416,18 +423,10 @@ bp.words.0502 <- tweet_words_0502 %>%
   geom_bar(stat = "identity") + 
   ylab("Occurrences") + 
   coord_flip()
-#wordcloud
-library(wordcloud)
-library(twitteR)
 
-#install.packages("extrafont")
-library(extrafont)
-#font_import()
 
-test<-userTimeline("Bitcoin", n=100)
-str(test[[1]])
 
-tweetTexts<-unlist(lapply(test, function(t) { t$text}))
+
 
 #### wordcloud
 
@@ -443,17 +442,11 @@ wordcloud(tweet_words_0413$word, min.freq = 20,
 
 
 
-#### playing with the settings 
-#wordcloud(tweet_words_0414$word, min.freq=20, vfont=c("script", "plain"))
-#wordcloud(tweet_words_0414$word, min.freq=20, vfont=c("gothic italian", "plain"))
-
-
-
 #search_tweets
 ##Returns Twitter statuses matching a user provided search query. 
 #ONLY RETURNS DATA FROM THE PAST 6-9 DAYS. 
 #To return more than 18,000 statuses in a single call, set "retryonratelimit" to TRUE.
 ## search for 5000 tweets using the rstats hashtag
-?search_tweets()
+
 tweets0424_0502 <- search_tweets(
   "Bitcoin", n = 18,000, type = "popular") #only got 5/1 and 5/2
