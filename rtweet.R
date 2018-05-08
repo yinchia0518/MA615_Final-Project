@@ -80,7 +80,7 @@ stream_tweets(
   file_name = "Bitcoin.json",
   parse = FALSE
 )
-?stream_tweets()
+
 ## 04/22 read in the data as a tidy tbl data frame
 djt <- parse_stream("Bitcoin.json")
 
@@ -180,43 +180,4 @@ bitcoin_fds_data <- lookup_users(bitcoin_fds$user_id)
 
 
 
-# ## clean data
-# library(lubridate)
-# library(date)
-# library(chron)
-# 
-# 
-# oneWeekTweets_0422 <- djt %>% 
-#   select(user_id,screen_name, text,source,is_quote,is_retweet,hashtags,lang,retweet_text,retweet_created_at,retweet_favorite_count,retweet_retweet_count,retweet_location,account_lang )
-# 
-# oneWeekRetweets_0422 <- subset(oneWeekTweets_0422, is_retweet == TRUE)
-# 
-# oneWeekTweets_0428 <- djt2 %>% 
-#   select(user_id,screen_name, text,source,is_quote,is_retweet,hashtags,lang,retweet_text,retweet_created_at,retweet_favorite_count,retweet_retweet_count,retweet_location,account_lang )
-# 
-# oneWeekRetweets_0428 <- subset(oneWeekTweets_0428, is_retweet == TRUE)
-# 
-# 
-# #sum the total retweet count for each day
-# 
-# numberOfOneWeekRetweets_0422 <- oneWeekRetweets_0422 %>% group_by(retweetCreatedDate=floor_date(retweet_created_at, "day"))
-# table(numberOfOneWeekRetweets_0422$retweetCreatedDate)
-# 
-# numberOfOneWeekRetweets_0428 <- oneWeekRetweets_0428 %>% group_by(retweetCreatedDate=floor_date(retweet_created_at, "day"))
-# table(numberOfOneWeekRetweets_0428$retweetCreatedDate)
-# 
-# 
-# numberOfOneWeekRetweets_0428 <- oneWeekRetweets_0428 %>% group_by(retweetCreatedDate=floor_date(retweet_created_at, "day")) %>%
-#   summarize(total_retweets=sum(retweet_retweet_count))
-# 
-# 
-# numberOftwoWeeksRetweets_04_22_28 <- rbind(numberOfOneWeekRetweets_0422,numberOfOneWeekRetweets_0428)
-# numberOftwoWeeksRetweets_04_22_28 <- numberOftwoWeeksRetweets_04_22_28 %>% 
-#   group_by(retweetCreatedDate=floor_date(retweetCreatedDate, "day")) %>%
-#   summarize(total_retweets=sum(total_retweets))
-# 
-# rm(numberOfOneWeekRetweets_0422)
-# rm(numberOfOneWeekRetweets_0428)
-# rm(numberOftwoWeeksRetweets_04_22_28)
-# #numberOftwoWeeksRetweets_04_22_28 <- numberOftwoWeeksRetweets_04_22_28[ order(numberOftwoWeeksRetweets_04_22_28$retweetCreatedDate , decreasing = FALSE ),]
 
